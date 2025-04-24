@@ -94,10 +94,16 @@ export default function Home() {
             <IoIosHelpCircleOutline className="icons" />
             <div className="pl-2"> Help & Support </div>
           </div>
-          <div onClick={() => setActive("login") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
+          {logged ? 
+            <div onClick={() => setLogged(false) }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
+            <IoIosLogIn className="icons" />
+            <div className="pl-2"> Logout </div>
+            </div> :
+            <div onClick={() => setActive("login") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
             <IoIosLogIn className="icons" />
             <div className="pl-2"> Login </div>
-          </div>
+            </div>
+          }
         </div>
       </div>
       <div className="w-full h-full">
