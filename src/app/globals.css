@@ -2,6 +2,7 @@
 
 body {
   background: #FFFFFF;
+  overflow: hidden;
 }
 
 /* Sidebar Styling */
