@@ -8,6 +8,13 @@ import { HiOutlineCog } from "react-icons/hi";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { IoIosLogIn } from "react-icons/io";
 
+import { app } from '../firebase';
+
+import { getAuth } from 'firebase/auth';
+import Link from "next/link";
+
+const auth = getAuth(app);
+
 type Props = {
   active: string;
   setActive: React.Dispatch<React.SetStateAction<string>>;
@@ -18,18 +25,28 @@ type Props = {
 }
 
 const SidebarLeft: React.FC<Props> = ({ active, setActive, logged, setLogged, isLogging, setIsLogging}) => {
+
+  const handleLogout = () => {
+    setLogged(false);
+    auth.signOut();
+  }
+
     return(
         <div className="w-54 flex flex-col justify-between h-full pb-4 pr-4 pt-4 sidebar">
                 <div className="flex flex-col ">
                   <Image src="/logo.png" className="pl-4 sidebar_image mb-10" alt="Summarist Logo" height={220} width={220}/>
-                  <div onClick={() => setActive("for") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "for" ? "border-l-4" : "pl-2"}`}>
-                    <TiHomeOutline className="icons"/>
-                    <div className="pl-2 text-lg"> For you </div>
-                  </div>
-                  <div onClick={() => setActive("my") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "my" ? "border-l-4" : "pl-2"}`}>
-                    <CiBookmark className="icons"/>
-                    <div className="pl-2 text-lg"> My Library </div>
-                  </div>
+                  <Link href="/for-you">
+                    <div className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "for" ? "border-l-4" : "pl-2"}`}>
+                      <TiHomeOutline className="icons"/>
+                      <div className="pl-2 text-lg"> For you </div>
+                    </div>
+                  </Link>
+                  <Link href="/library">
+                    <div onClick={() => setActive("my") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "my" ? "border-l-4" : "pl-2"}`}>
+                      <CiBookmark className="icons"/>
+                      <div className="pl-2 text-lg"> My Library </div>
+                    </div>
+                  </Link>
                   <div className={`cursor-not-allowed flex p-4 border-l-green-400 pl-3 items-center ${ active === "highlights" ? "border-l-4" : "pl-2"}`}>
                     <FaPenClip className="icons"/>
                     <div className="pl-2"> Highlights </div>
@@ -40,16 +57,18 @@ const SidebarLeft: React.FC<Props> = ({ active, setActive, logged, setLogged, is
                   </div>
                 </div>
                 <div className="flex flex-col items-start">
-                  <div onClick={() => setActive("settings") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "settings" ? "border-l-4" : "pl-2"}`}>
-                    <HiOutlineCog className="icons" />
-                    <div className="pl-2"> Settings </div>
-                  </div>
+                  <Link href="/settings">
+                    <div onClick={() => setActive("settings") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "settings" ? "border-l-4" : "pl-2"}`}>
+                      <HiOutlineCog className="icons" />
+                      <div className="pl-2"> Settings </div>
+                    </div>
+                  </Link>
                   <div className={`cursor-not-allowed flex p-4 border-l-green-400 pl-3 items-center ${ active === "help" ? "border-l-4" : "pl-2"}`}>
                     <IoIosHelpCircleOutline className="icons" />
                     <div className="pl-2"> Help & Support </div>
                   </div>
                   {logged ? 
-                    <div onClick={() => setLogged(false) }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
+                    <div onClick={() => handleLogout() }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
                     <IoIosLogIn className="icons" />
                     <div className="pl-2"> Logout </div>
                     </div> :

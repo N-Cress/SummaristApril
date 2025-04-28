@@ -1,18 +1,18 @@
 'use client'
 
 import Image from "next/image";
-import  SidebarLeft  from './components/sidebarLeft';
-import SidebarSearch from './components/sidebarSearch';
+import  SidebarLeft  from '../components/sidebarLeft';
+import SidebarSearch from '../components/sidebarSearch';
 
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { app } from './firebase';
+import { app } from '../firebase';
 
 const auth = getAuth(app);
 
 
-export default function Home() {
-  const [active, setActive] = useState<string>("my")
+export default function ForYou() {
+  const [active, setActive] = useState<string>("settings")
   const [logged, setLogged] = useState<boolean>(false)
   const [isLogging, setIsLogging] = useState<boolean>(false)
   const [email, setEmail] = useState('');
@@ -68,12 +68,19 @@ export default function Home() {
     e.stopPropagation();
   }
 
-  function mainRender(logged: boolean, active: string) {
-    switch(logged) {
-      case true:
-        switch(active) {
-          case "settings":
-            return <div className="ml-40 mr-40 w-full">
+
+  return (
+    < >
+    <div className={`flex w-screen h-screen text-[#032B41] `}>
+      
+      <SidebarLeft active={active} setActive={setActive} logged={logged} setLogged={setLogged}
+      isLogging={isLogging} setIsLogging={setIsLogging}
+      />
+      <div className="w-full h-full">
+        <SidebarSearch />
+        <div className="flex  "> 
+            {logged ? 
+            <div className="ml-40 mr-40 w-full">
             <div className="pt-10 font-bold text-4xl">
               <div className="border-b-[#E1E7EA] border-b-1 pb-4 "> Settings </div>
             </div>
@@ -88,18 +95,7 @@ export default function Home() {
                 <div> hanna@gmail.com </div>
               </div>
             </div>
-          </div>
-        }
-      case false:
-        switch(active) {
-          case "my":
-            return <div className="flex flex-col w-full items-center pt-12">
-              <Image src='/login.png' alt="login picture" height={500} width={500}/>
-              <div className="text-2xl font-bold"> Log in to your account to see your library. </div>
-              <div className="font-semibold mt-4 pt-2 pb-2 pr-16 pl-16 rounded-sm bg-[#2BD97C] "> Login </div>
-            </div> 
-          case "settings":
-            return <div className="w-full">
+          </div> : <div className="w-full">
               <div className="pt-10 font-bold text-4xl">
                 <div className="border-b-[#E1E7EA] border-b-1 pb-4 ml-40 mr-40"> Settings </div>
               </div>
@@ -108,21 +104,8 @@ export default function Home() {
                 <div className="text-2xl font-bold"> Log in to your account to see your library. </div>
                 <div className="text-center font-semibold mt-4 pt-2 pb-2 pl-16 pr-16 rounded-sm bg-[#2BD97C] "> Login </div>
               </div>
-            </div>
-        }
-    }
-  }
-
-  return (
-    < >
-    <div className={`flex w-screen h-screen text-[#032B41] `}>
-      
-      <SidebarLeft active={active} setActive={setActive} logged={logged} setLogged={setLogged}
-      isLogging={isLogging} setIsLogging={setIsLogging}
-      />
-      <div className="w-full h-full">
-        <SidebarSearch />
-        <div className="flex  "> {mainRender(logged, active)}</div>
+            </div>}
+        </div>
       </div>
     </div>
     {isLogging && ( 
