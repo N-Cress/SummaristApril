@@ -7,6 +7,8 @@ import Login from '../components/login';
 
 
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../lib/store';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { app } from '../firebase';
 
@@ -20,6 +22,9 @@ export default function ForYou() {
   const [subLevel, setSubLevel] = useState<string>("basic")
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const uEmail = useSelector((state: RootState) => state.logged.email)
+  const logging = useSelector((state: RootState) => state.logging.value)
 
   const user = auth.currentUser;
 
@@ -78,8 +83,7 @@ export default function ForYou() {
     < >
     <div className={`flex w-screen h-screen text-[#032B41] `}>
       
-      <SidebarLeft active={active} setActive={setActive} logged={logged} setLogged={setLogged}
-      isLogging={isLogging} setIsLogging={setIsLogging}
+      <SidebarLeft 
       />
       <div className="w-full h-full">
         <SidebarSearch />
@@ -97,7 +101,7 @@ export default function ForYou() {
               </div>
               <div>
                 <div className="font-bold text-xl"> Email </div>
-                <div> {!!user ? user.email : "An error has occured, email unfound."} </div>
+                <div> {uEmail ? uEmail : "An error has occured, email unfound."} </div>
               </div>
             </div>
           </div> : <div className="w-full">
@@ -113,7 +117,7 @@ export default function ForYou() {
         </div>
       </div>
     </div>
-    {isLogging && ( 
+    {logging && ( 
       <Login setLogged={setLogged} setIsLogging={setIsLogging} 
       setSubLevel={setSubLevel}/>
   )};

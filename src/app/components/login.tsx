@@ -5,7 +5,7 @@ import { app } from '../firebase';
 import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../lib/store';
-import { setLogged } from '@/lib/features/loggedSlice';
+import { setLogged, setUEmail, setUName } from '@/lib/features/loggedSlice';
 import { setLogging } from "@/lib/features/loggingSlice";
 
 const db = getFirestore();
@@ -25,27 +25,9 @@ const Login : React.FC<Props> = ({ setSubLevel}) => {
 
     const logged = useSelector((state: RootState) => state.logged.value)
     const logging = useSelector((state: RootState) => state.logged.value)
-    
 
     const dispatch = useDispatch();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid); // "users" collection, document with user.uid
-        const userSnap = await getDoc(userRef);
     
-        if (!userSnap.exists()) {
-          // If user doesn't exist in Firestore yet, create them
-          await setDoc(userRef, {
-            email: user.email,
-            subscription: "basic", // 👈 Default subscription
-            createdAt: new Date()
-          });
-        } else {
-          setSubLevel(userSnap.data().subscription);
-        }
-      }
-    });
 
     const user = auth.currentUser;
 
@@ -59,9 +41,12 @@ const Login : React.FC<Props> = ({ setSubLevel}) => {
 
     const handleLogin = async (email: string, password: string) => {
         try {
-          await signInWithEmailAndPassword(auth, email, password);
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
           dispatch(setLogged(true))
-          dispatch(setLogging(true))
+          dispatch(setLogging(false))
+          dispatch(setUEmail(user.email))
+          dispatch(setUName(user.displayName || null))
           setError(false);
         } catch (error) {
           console.error('Login failed:', error);
@@ -101,12 +86,8 @@ const Login : React.FC<Props> = ({ setSubLevel}) => {
       className="fixed inset-0 bg-black/75  flex items-center justify-center z-50"
       onClick={handleBgClick}
       >
-      <form
-        className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg w-96"
-        onClick={handleBoxClick}
-        onSubmit={(e) => {e.preventDefault(); handleLogin(email, password);}}
-      >
-        <h2 className="text-xl font-semibold mb-4">Log in to Summarist</h2>
+      <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg w-96">
+      <h2 className="text-xl font-semibold mb-4">Log in to Summarist</h2>
         <button onClick={() => handleLogin('test@email.com', "123456")} className="cursor-pointer mt-2 mb-2 w-full bg-[#25396B] text-white py-2 rounded">
           Login as a Guest
         </button>
@@ -115,14 +96,20 @@ const Login : React.FC<Props> = ({ setSubLevel}) => {
           <div> or </div>
           <div className="border-1 border-gray-300 w-full ml-5 "> </div>
         </div>
-        <button onClick={signInWithGoogle} className="w-full mt-2 mb-2 cursor-pointer bg-[#4285F4] text-white py-2 rounded">
+        <button onClick={signInWithGoogle} className="w-full cursor-not-allowed mt-2 mb-2 bg-[#4285F4] text-white py-2 rounded">
           Login with Google
         </button>
-        <div className="mb-4 mt-2 flex w-full items-center justify-center"> 
+        <div className="mt-2 mb-4 flex w-full items-center justify-center"> 
           <div className="border-1 border-gray-300 w-full mr-5"> </div>
           <div> or </div>
           <div className="border-1 border-gray-300 w-full ml-5 "> </div>
         </div>
+      <form
+        className="flex flex-col items-center bg-white pl-8 pr-8 g w-96"
+        onClick={handleBoxClick}
+        onSubmit={(e) => {e.preventDefault(); handleLogin(email, password);}}
+      >
+       
         <input
           type="email"
           placeholder="Email Address"
@@ -135,13 +122,14 @@ const Login : React.FC<Props> = ({ setSubLevel}) => {
           className="border p-2 w-full mb-4 rounded"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={() => handleLogin(email, password)}className="w-full bg-[#2BD97C] text-black py-2 rounded">
+        <button className="w-full bg-[#2BD97C] text-black cursor-pointer py-2 rounded">
           Login
         </button>
         {error && <div className="text-red-500 mt-2"> Invalid Email or Password </div>}
         <div className="text-[#1191E9] mt-4 mb-2 cursor-not-allowed"> Forgot your password?</div>
         <div className="text-[#1191E9]"> Don't have an account? </div>
       </form>
+      </div>
     </div>
     )
 }

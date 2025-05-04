@@ -2,10 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface LoggedState {
     value: boolean;
+    email: string | null;
+    name: string | null;
 }
 
 const initialState: LoggedState = {
-    value: false
+    value: false,
+    email: null,
+    name: null,
 }
 
 const loggedSlice = createSlice({
@@ -14,9 +18,15 @@ const loggedSlice = createSlice({
     reducers: {
         setLogged: (state, action) => {
             state.value = action.payload
+        },
+        setUEmail: (state, action) => {
+            state.email = action.payload
+        },
+        setUName: (state, action) => {
+            state.name = action.payload
         }
     }
 })
 
-export const { setLogged } = loggedSlice.actions
+export const { setLogged, setUEmail, setUName } = loggedSlice.actions
 export default loggedSlice.reducer

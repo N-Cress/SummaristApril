@@ -6,6 +6,11 @@ import SidebarSearch from '../components/sidebarSearch';
 import Login from '../components/login';
 
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../lib/store';
+import { setLogged, setUEmail, setUName } from '@/lib/features/loggedSlice';
+import { setLogging } from "@/lib/features/loggingSlice";
+
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { app } from '../firebase';
 
@@ -14,10 +19,12 @@ const auth = getAuth(app);
 
 export default function ForYou() {
   const [active, setActive] = useState<string>("for")
-  const [logged, setLogged] = useState<boolean>(false)
-  const [isLogging, setIsLogging] = useState<boolean>(false)
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const logged = useSelector((state: RootState) => state.logged.value)
+  const logging = useSelector((state: RootState) => state.logged.value)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -85,7 +92,7 @@ export default function ForYou() {
         </div>
       </div>
     </div>
-    {isLogging && ( 
+    {logging && ( 
       <Login setLogged={setLogged} setIsLogging={setIsLogging}/>
   )};
   </>

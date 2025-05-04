@@ -21,23 +21,19 @@ import Link from "next/link";
 const auth = getAuth(app);
 
 type Props = {
-  logged: boolean;
-  setLogged: React.Dispatch<React.SetStateAction<boolean>>;
-  isLogging: boolean;
-  setIsLogging: React.Dispatch<React.SetStateAction<boolean>>;
+  
 }
 
 const SidebarLeft: React.FC<Props> = ({}) => {
 
   const active = useSelector((state: RootState) => state.active.value)
   const logged = useSelector((state: RootState) => state.logged.value)
+
  
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch((setLogged(false)));
-    console.log("loggin")
-    console.log(logged)
     auth.signOut();
   }
 
