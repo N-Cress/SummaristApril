@@ -3,6 +3,10 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopu
 
 import { app } from '../firebase';
 import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../lib/store';
+import { setLogged } from '@/lib/features/loggedSlice';
+import { setLogging } from "@/lib/features/loggingSlice";
 
 const db = getFirestore();
 
@@ -14,10 +18,16 @@ type Props = {
     setSubLevel : React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Login : React.FC<Props> = ({ setLogged, setIsLogging, setSubLevel}) => {
+const Login : React.FC<Props> = ({ setSubLevel}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(false);
+    const [error, setError] = useState<boolean>(false);
+
+    const logged = useSelector((state: RootState) => state.logged.value)
+    const logging = useSelector((state: RootState) => state.logged.value)
+    
+
+    const dispatch = useDispatch();
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -50,8 +60,8 @@ const Login : React.FC<Props> = ({ setLogged, setIsLogging, setSubLevel}) => {
     const handleLogin = async (email: string, password: string) => {
         try {
           await signInWithEmailAndPassword(auth, email, password);
-          setLogged(true)
-          setIsLogging(false);
+          dispatch(setLogged(true))
+          dispatch(setLogging(true))
           setError(false);
         } catch (error) {
           console.error('Login failed:', error);
@@ -80,7 +90,7 @@ const Login : React.FC<Props> = ({ setLogged, setIsLogging, setSubLevel}) => {
     
     
       const handleBgClick  = () => {
-        setIsLogging(false);
+        dispatch(setLogging(false));
       }
     
       const handleBoxClick = (e: React.MouseEvent) => {

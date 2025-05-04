@@ -9,6 +9,11 @@ import { IoIosHelpCircleOutline } from "react-icons/io";
 import { IoIosLogIn } from "react-icons/io";
 
 import { app } from '../firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../lib/store';
+import { setActive } from '../../lib/features/activeSlice';
+import { setLogged } from "@/lib/features/loggedSlice";
+import { setLogging } from "@/lib/features/loggingSlice";
 
 import { getAuth } from 'firebase/auth';
 import Link from "next/link";
@@ -16,18 +21,23 @@ import Link from "next/link";
 const auth = getAuth(app);
 
 type Props = {
-  active: string;
-  setActive: React.Dispatch<React.SetStateAction<string>>;
   logged: boolean;
   setLogged: React.Dispatch<React.SetStateAction<boolean>>;
   isLogging: boolean;
   setIsLogging: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SidebarLeft: React.FC<Props> = ({ active, setActive, logged, setLogged, isLogging, setIsLogging}) => {
+const SidebarLeft: React.FC<Props> = ({}) => {
+
+  const active = useSelector((state: RootState) => state.active.value)
+  const logged = useSelector((state: RootState) => state.logged.value)
+ 
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    setLogged(false);
+    dispatch((setLogged(false)));
+    console.log("loggin")
+    console.log(logged)
     auth.signOut();
   }
 
@@ -36,13 +46,13 @@ const SidebarLeft: React.FC<Props> = ({ active, setActive, logged, setLogged, is
                 <div className="flex flex-col ">
                   <Image src="/logo.png" className="pl-4 sidebar_image mb-10" alt="Summarist Logo" height={220} width={220}/>
                   <Link href="/for-you">
-                    <div className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "for" ? "border-l-4" : "pl-2"}`}>
+                    <div onClick={() => dispatch((setActive("for"))) } className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "for" ? "border-l-4" : "pl-2"}`}>
                       <TiHomeOutline className="icons"/>
                       <div className="pl-2 text-lg"> For you </div>
                     </div>
                   </Link>
                   <Link href="/library">
-                    <div onClick={() => setActive("my") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "my" ? "border-l-4" : "pl-2"}`}>
+                    <div onClick={() => dispatch((setActive("my")))  }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "my" ? "border-l-4" : "pl-2"}`}>
                       <CiBookmark className="icons"/>
                       <div className="pl-2 text-lg"> My Library </div>
                     </div>
@@ -58,7 +68,7 @@ const SidebarLeft: React.FC<Props> = ({ active, setActive, logged, setLogged, is
                 </div>
                 <div className="flex flex-col items-start">
                   <Link href="/settings">
-                    <div onClick={() => setActive("settings") }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "settings" ? "border-l-4" : "pl-2"}`}>
+                    <div onClick={() => dispatch((setActive("settings"))) }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "settings" ? "border-l-4" : "pl-2"}`}>
                       <HiOutlineCog className="icons" />
                       <div className="pl-2"> Settings </div>
                     </div>
@@ -68,11 +78,11 @@ const SidebarLeft: React.FC<Props> = ({ active, setActive, logged, setLogged, is
                     <div className="pl-2"> Help & Support </div>
                   </div>
                   {logged ? 
-                    <div onClick={() => handleLogout() }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
+                    <div onClick={() => handleLogout()} className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
                     <IoIosLogIn className="icons" />
                     <div className="pl-2"> Logout </div>
                     </div> :
-                    <div onClick={() => setIsLogging(true) }className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
+                    <div onClick={() => dispatch((setLogging(true)))} className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "login" ? "border-l-4" : "pl-2"}`}>
                     <IoIosLogIn className="icons" />
                     <div className="pl-2"> Login </div>
                     </div>

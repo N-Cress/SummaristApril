@@ -8,27 +8,17 @@ import Login from './components/login';
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { app } from './firebase';
+import { useSelector } from 'react-redux';
+import { RootState } from '../lib/store';
+
 
 const auth = getAuth(app);
 
 
 export default function Home() {
-  const [active, setActive] = useState<string>("my")
-  const [logged, setLogged] = useState<boolean>(false)
-  const [isLogging, setIsLogging] = useState<boolean>(false)
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLogged(true);
-      } else {
-        setLogged(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
+  const active = useSelector((state: RootState) => state.active.value)
+  const logged = useSelector((state: RootState) => state.logged.value)
+  const logging = useSelector((state: RootState) => state.logging.value)
 
 
   function mainRender(logged: boolean, active: string) {
@@ -80,16 +70,14 @@ export default function Home() {
     < >
     <div className={`flex w-screen h-screen text-[#032B41] `}>
       
-      <SidebarLeft active={active} setActive={setActive} logged={logged} setLogged={setLogged}
-      isLogging={isLogging} setIsLogging={setIsLogging}
-      />
+      <SidebarLeft />
       <div className="w-full h-full">
         <SidebarSearch />
         <div className="flex  "> {mainRender(logged, active)}</div>
       </div>
     </div>
-    {isLogging && ( 
-      <Login setLogged={setLogged} setIsLogging={setIsLogging}/>
+    {logging && ( 
+      <Login />
   )};
   </>
   )
