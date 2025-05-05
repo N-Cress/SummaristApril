@@ -24,7 +24,7 @@ export default function ForYou() {
   const [password, setPassword] = useState('');
 
   const logged = useSelector((state: RootState) => state.logged.value)
-  const logging = useSelector((state: RootState) => state.logged.value)
+  const logging = useSelector((state: RootState) => state.logging.value)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -80,20 +80,22 @@ export default function ForYou() {
     < >
     <div className={`flex w-screen h-screen text-[#032B41] `}>
       
-      <SidebarLeft active={active} setActive={setActive} logged={logged} setLogged={setLogged}
-      isLogging={isLogging} setIsLogging={setIsLogging}
+      <SidebarLeft
       />
       <div className="w-full h-full">
         <SidebarSearch />
-        <div className="flex  "> 
-            {logged ? <></>
-            : 
-            <></>}
+        <div className="flex justify-center "> 
+            <div className="flex ">
+              <div> Selected just for you </div>
+              <div>
+                <div> </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
     {logging && ( 
-      <Login setLogged={setLogged} setIsLogging={setIsLogging}/>
+      <Login />
   )};
   </>
   )

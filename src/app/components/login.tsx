@@ -7,18 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../lib/store';
 import { setLogged, setUEmail, setUName } from '@/lib/features/loggedSlice';
 import { setLogging } from "@/lib/features/loggingSlice";
+import { setSub } from "@/lib/features/subSlice";
 
 const db = getFirestore();
 
 const auth = getAuth(app);
 
-type Props = {
-    setLogged : React.Dispatch<React.SetStateAction<boolean>>;
-    setIsLogging : React.Dispatch<React.SetStateAction<boolean>>;
-    setSubLevel : React.Dispatch<React.SetStateAction<string>>;
-}
 
-const Login : React.FC<Props> = ({ setSubLevel}) => {
+const Login = ({ }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<boolean>(false);
@@ -47,6 +43,7 @@ const Login : React.FC<Props> = ({ setSubLevel}) => {
           dispatch(setLogging(false))
           dispatch(setUEmail(user.email))
           dispatch(setUName(user.displayName || null))
+          dispatch(setSub(user.subscription))
           setError(false);
         } catch (error) {
           console.error('Login failed:', error);
