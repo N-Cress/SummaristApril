@@ -23,8 +23,8 @@ export default function ForYou() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const uEmail = useSelector((state: RootState) => state.logged.email)
-  const logging = useSelector((state: RootState) => state.logging.value)
+  const uEmail = useSelector((state: RootState) => state.persisted.logged.email)
+  const logging = useSelector((state: RootState) => state.persisted.logging.value)
 
   const user = auth.currentUser;
 

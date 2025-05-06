@@ -26,8 +26,8 @@ type Props = {
 
 const SidebarLeft: React.FC<Props> = ({}) => {
 
-  const active = useSelector((state: RootState) => state.active.value)
-  const logged = useSelector((state: RootState) => state.logged.value)
+  const active = useSelector((state: RootState) => state.persisted.active.value)
+  const logged = useSelector((state: RootState) => state.persisted.logged.value)
 
  
   const dispatch = useDispatch();

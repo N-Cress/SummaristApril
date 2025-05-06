@@ -13,6 +13,7 @@ import { setLogging } from "@/lib/features/loggingSlice";
 
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { app } from '../firebase';
+import { useGetSuggestedBooksQuery, useGetSelectedBooksQuery } from "@/lib/features/booksSlice";
 
 const auth = getAuth(app);
 
@@ -23,8 +24,12 @@ export default function ForYou() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const logged = useSelector((state: RootState) => state.logged.value)
-  const logging = useSelector((state: RootState) => state.logging.value)
+  const logged = useSelector((state: RootState) => state.persisted.logged.value)
+  const logging = useSelector((state: RootState) => state.persisted.logging.value)
+
+  const {data: selectedData, isLoading} = useGetSelectedBooksQuery()
+
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -88,7 +93,7 @@ export default function ForYou() {
             <div className="flex ">
               <div> Selected just for you </div>
               <div>
-                <div> </div>
+                <div> {selectedData[0].author}</div>
               </div>
             </div>
         </div>
