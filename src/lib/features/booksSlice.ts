@@ -5,7 +5,7 @@ type Book = {
     author: string;
     title: string;
     subTitle: string;
-    imageLInk: string;
+    imageLink: string;
     audioLink: string;
     totalRating: number;
     keyIdeas: number;
@@ -23,12 +23,15 @@ export const booksApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "https://us-central1-summaristt.cloudfunctions.net/",}),
     endpoints: (builder) => ({
         getSuggestedBooks : builder.query<Book[], void>({
-            query : () => "suggested",
+            query : () => "getBooks?status=suggested",
         }),
         getSelectedBooks: builder.query<Book[], void>({
             query: () => "getBooks?status=selected",
         }),
+        getRecommendedBooks: builder.query<Book[], void>({
+            query: () => "getBooks?status=recommended",
+        }),
     })
 })
 
-export const { useGetSuggestedBooksQuery, useGetSelectedBooksQuery } = booksApi
+export const { useGetSuggestedBooksQuery, useGetSelectedBooksQuery, useGetRecommendedBooksQuery } = booksApi
