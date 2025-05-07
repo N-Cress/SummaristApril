@@ -8,6 +8,7 @@ type Book = {
     imageLink: string;
     audioLink: string;
     totalRating: number;
+    averageRating: number;
     keyIdeas: number;
     type:string;
     status: string;
@@ -31,7 +32,10 @@ export const booksApi = createApi({
         getRecommendedBooks: builder.query<Book[], void>({
             query: () => "getBooks?status=recommended",
         }),
+        getBookById: builder.query<Book, string>({
+            query: (id) => `/getBook?id=${id}`,
+        })
     })
 })
 
-export const { useGetSuggestedBooksQuery, useGetSelectedBooksQuery, useGetRecommendedBooksQuery } = booksApi
+export const { useGetSuggestedBooksQuery, useGetSelectedBooksQuery, useGetRecommendedBooksQuery, useGetBookByIdQuery } = booksApi

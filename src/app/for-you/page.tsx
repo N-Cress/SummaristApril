@@ -47,43 +47,7 @@ export default function ForYou() {
     return () => unsubscribe();
   }, []);
 
-  const handleLogin = async (email: string, password: string) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setLogged(true)
-      setIsLogging(false);
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-  };
 
-  async function signInWithGoogle() {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
-  
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
- 
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
- 
-    }
-  }
-
-
-  const handleBgClick  = () => {
-    setIsLogging(false);
-  }
-
-  const handleBoxClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  }
 
   return (
     < >
@@ -99,7 +63,7 @@ export default function ForYou() {
             <div className="flex flex-col">
               <div className="text-2xl font-semibold mb-2"> Selected just for you </div>
               <div className="">
-                { selectedLoading ? <></> : 
+                {!selectedData ? <></> : 
                 <Link href={`/books/${selectedData[0].id}`} className="flex p-4 rounded-sm bg-[#FBEFD6] w-150 h-full">
                   <div className="w-50"> {selectedData[0].subTitle }</div>
                   <hr  className="h-full ml-8 mr-4 border-gray-300 border-1"/>
@@ -118,12 +82,12 @@ export default function ForYou() {
               </div>
               <div className="text-2xl font-semibold mb-2"> Recommended for you </div>
               <div className="text-base"> We think you&apos;ll like these </div>
-              <div className="flex w-240 overflow-hidden"> 
+              <div className="flex w-260 overflow-hidden"> 
                 <div className="flex flex-row gap-4">
-                  { recommendedLoading ? <></> :
+                  {!recommendedData ? <></> :
                   recommendedData.map((book) => (
 
-                      <Link href={`/books/${book.id}`} key={book.id} className="shrink-0 w-40 flex flex-col ml-4 mr-4 ">
+                      <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 shrink-0 p-4 w-45 flex flex-col ml-4 mr-4 ">
                         {book.subscriptionRequired ? <div className="mt-2 text-end pb-2"> <button className="rounded-2xl text-[10px] pb-1 pt-1 pl-2 pr-2 text-white bg-blue-950"> Premium </button> </div> : <div className="mt-11"> </div>}
                         <Image src={book.imageLink} alt={book.title} width={600} height={100} className=" h-40" />
                         <div className="font-bold"> {book.title} </div>
@@ -138,12 +102,12 @@ export default function ForYou() {
               </div>
               <div className="text-2xl font-semibold mb-2"> Suggested books </div>
               <div className="text-base"> Browse these books </div>
-              <div className="flex w-240 mb-20 overflow-hidden"> 
+              <div className="flex w-260 mb-20 overflow-hidden"> 
               <div className="flex flex-row gap-4">
-              { suggestedLoading ? <></> :
+              { !suggestedData ? <></> :
                   suggestedData.map((book) => (
 
-                      <Link href={`/books/${book.id}`} key={book.id} className="shrink-0 w-40 flex flex-col ml-4 mr-4 ">
+                      <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 p-4 shrink-0 w-45 flex flex-col ml-4 mr-4 ">
                         {book.subscriptionRequired ? <div className="mt-2 text-end pb-2"> <button className="rounded-2xl text-[10px] pb-1 pt-1 pl-2 pr-2 text-white bg-blue-950"> Premium </button> </div> : <div className="mt-11"> </div>}
                         <Image src={book.imageLink} alt={book.title} width={600} height={100} className=" h-40" />
                         <div className="font-bold"> {book.title} </div>
