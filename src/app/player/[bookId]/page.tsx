@@ -1,11 +1,12 @@
 'use client';
 
-import  SidebarLeft  from '../../components/sidebarLeft';
+import  SidebarPlayer  from '../../components/sidebarLeft';
 import SidebarSearch from '../../components/sidebarSearch';
 import Login from '../../components/login';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../lib/store';
 import { useParams } from "next/navigation"
+import { useState } from 'react';
 import { useGetBookByIdQuery } from "@/lib/features/booksSlice";
 import Image from 'next/image';
 
@@ -15,6 +16,7 @@ import { FaCirclePlay } from "react-icons/fa6";
 
 
 export default function PlayerBook() {
+    const [textSize, setTextSize] = useState("base")
     const logging = useSelector((state: RootState) => state.persisted.logging.value)
 
     const params = useParams()
@@ -25,21 +27,20 @@ export default function PlayerBook() {
           });
     
           if (!bookData) return <div> Loading...</div>
-
+          console.log(bookData.summary)
     return (
         < >
     <div className={`flex w-screen h-screen text-[#032B41] flew-grow pb-20`}>
       
-      <SidebarLeft
-      />
+      <SidebarPlayer setTextSize={setTextSize}/>
       <div className="w-full h-full  overflow-y-auto">
         <SidebarSearch />
         <div className="flex flex-col w-1/2 ml-80">
-            <div className="mt-4 font-bold text-2xl">
+            <div className="mt-6 font-bold text-2xl">
                 {bookData.title}
             </div>
             <hr  className="h-full mt-4 border-gray-200 border-1"/>
-            <div className="mt-4"> {bookData.summary}</div>
+            <pre className="mt-4 mb-4 text-wrap text-base font-sans"> {bookData.summary}</pre>
         </div>
       </div>
       <div className="w-full h-20 fixed bottom-0 left-0 z-10 bg-[#042330] flex items-center justify-between">
