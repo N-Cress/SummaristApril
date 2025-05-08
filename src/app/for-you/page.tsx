@@ -59,7 +59,7 @@ export default function ForYou() {
     
         <SidebarSearch />
 
-        <div className="flex-grow -auto ml-80 pt-10 pr-6"> 
+        <div className="flex-grow -auto ml-60 pt-10 pr-6"> 
             <div className="flex flex-col">
               <div className="text-2xl font-semibold mb-2"> Selected just for you </div>
               <div className="">
