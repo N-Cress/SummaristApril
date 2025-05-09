@@ -40,7 +40,9 @@ const SidebarLeft: React.FC<Props> = ({}) => {
     return(
         <div className="w-54 flex flex-col justify-between h-full pb-4 pr-4 pt-4 sidebar">
                 <div className="flex flex-col ">
-                  <Image src="/logo.png" className="pl-4 sidebar_image mb-10" alt="Summarist Logo" height={220} width={220}/>
+                  <Link href="/for-you"> 
+                    <Image src="/logo.png" className="pl-4 sidebar_image mb-10" alt="Summarist Logo" height={220} width={220}/>
+                  </Link>
                   <Link href="/for-you">
                     <div onClick={() => dispatch((setActive("for"))) } className={`cursor-pointer flex p-4 border-l-green-400 pl-3 items-center ${ active === "for" ? "border-l-4" : "pl-2"}`}>
                       <TiHomeOutline className="icons"/>

@@ -1,6 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import { FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 import { RiReplay15Fill, RiForward15Fill } from "react-icons/ri";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../lib/store';
+import { setActive } from '../../lib/features/activeSlice';
 
 export default function AudioPlayer({ audio }: { audio: string }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -9,6 +12,8 @@ export default function AudioPlayer({ audio }: { audio: string }) {
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [seekValue, setSeekValue] = useState(0);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -27,6 +32,8 @@ export default function AudioPlayer({ audio }: { audio: string }) {
 
     audio.addEventListener("timeupdate", updateTime);
     audio.addEventListener("loadedmetadata", updateDuration);
+
+    dispatch(setActive("none"));
 
     return () => {
       audio.removeEventListener("timeupdate", updateTime);
@@ -74,7 +81,7 @@ export default function AudioPlayer({ audio }: { audio: string }) {
   };
 
   return (
-    <div className="flex items-center w-full pl-140 pr-25 justify-between gap-4 p-4 text-white rounded-xl shadow-md">
+    <div className="flex items-center w-full pl-130 pr-25 justify-between gap-4 p-4 text-white rounded-xl shadow-md">
       <div className="flex gap-4">
         <audio ref={audioRef} src={audio} preload="metadata" />
         <button onClick={() => skipTime(-15)}>

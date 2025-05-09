@@ -19,8 +19,8 @@ const Login = ({ }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<boolean>(false);
 
-    const logged = useSelector((state: RootState) => state.logged.value)
-    const logging = useSelector((state: RootState) => state.logged.value)
+    const logged = useSelector((state: RootState) => state.persisted.logged.value)
+    const logging = useSelector((state: RootState) => state.persisted.logged.value)
 
     const dispatch = useDispatch();
     

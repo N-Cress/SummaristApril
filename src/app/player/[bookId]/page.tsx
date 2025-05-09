@@ -28,7 +28,7 @@ export default function PlayerBook() {
           });
     
           if (!bookData) return <div> Loading...</div>
-          console.log(bookData.summary)
+
     return (
         < >
     <div className={`flex w-screen h-screen text-[#032B41] flew-grow pb-20`}>

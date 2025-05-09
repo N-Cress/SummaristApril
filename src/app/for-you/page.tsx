@@ -34,6 +34,38 @@ export default function ForYou() {
   const {data: recommendedData, isLoading: recommendedLoading} = useGetRecommendedBooksQuery()
   const {data: suggestedData, isLoading: suggestedLoading} = useGetSuggestedBooksQuery()
 
+  function getAudioDuration(url: string): Promise<number> {
+          return new Promise((resolve, reject) => {
+            const audio = new Audio();
+            audio.src = url;
+            audio.preload = "metadata";
+            audio.onloadedmetadata = () => resolve(audio.duration);
+            audio.onerror = () => reject("Unable to load audio");
+          });
+        }
+  
+        const formatTime = (time: number) => {
+          const minutes = Math.floor(time / 60);
+          const seconds = Math.floor(time % 60).toString().padStart(2, "0");
+          return `${minutes} mins ${seconds} secs`;
+        };
+  
+        function AudioDurationDisplay({ audioLink }: { audioLink: string }) {
+          const [duration, setDuration] = useState<number | null>(null);
+        
+          useEffect(() => {
+            getAudioDuration(audioLink)
+              .then(setDuration)
+              .catch(() => setDuration(0));
+          }, [audioLink]);
+        
+          return (
+            <div className="flex items-center font-semibold"> 
+              <div className="pl-2">{duration !== null ? formatTime(duration) : "Loading..."}</div>
+            </div>
+          );
+        }
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -64,9 +96,9 @@ export default function ForYou() {
               <div className="text-2xl font-semibold mb-2"> Selected just for you </div>
               <div className="">
                 {!selectedData ? <></> : 
-                <Link href={`/books/${selectedData[0].id}`} className="flex p-4 rounded-sm bg-[#FBEFD6] w-150 h-full">
+                <Link href={`/books/${selectedData[0].id}`} className="flex p-4 rounded-sm  bg-[#FBEFD6] w-150 h-full">
                   <div className="w-50"> {selectedData[0].subTitle }</div>
-                  <hr  className="h-full ml-8 mr-4 border-gray-300 border-1"/>
+                  <hr  className="h-40 ml-8 mr-4 border-gray-300 border-1"/>
                   <div className="flex">
                     <Image src={selectedData[0].imageLink} width={160} height={200} alt="book image" />
                     <div>
@@ -74,7 +106,7 @@ export default function ForYou() {
                       <div> {selectedData[0].author} </div>
                       <div className="flex mt-4 items-center"> 
                         <FaCirclePlay size={40}/>
-                        <div className="ml-2 text-xl"> 3:23 </div>
+                        <AudioDurationDisplay audioLink={selectedData[0].audioLink} />
                       </div>
                     </div>
                   </div>
@@ -82,12 +114,12 @@ export default function ForYou() {
               </div>
               <div className="text-2xl font-semibold mb-2"> Recommended for you </div>
               <div className="text-base"> We think you&apos;ll like these </div>
-              <div className="flex w-260 overflow-hidden"> 
+              <div className="flex w-240 overflow-hidden"> 
                 <div className="flex flex-row gap-4">
                   {!recommendedData ? <></> :
                   recommendedData.map((book) => (
 
-                      <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 shrink-0 p-4 w-45 flex flex-col ml-4 mr-4 ">
+                      <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
                         {book.subscriptionRequired ? <div className="mt-2 text-end pb-2"> <button className="rounded-2xl text-[10px] pb-1 pt-1 pl-2 pr-2 text-white bg-blue-950"> Premium </button> </div> : <div className="mt-11"> </div>}
                         <Image src={book.imageLink} alt={book.title} width={600} height={100} className=" h-40" />
                         <div className="font-bold"> {book.title} </div>
@@ -102,12 +134,12 @@ export default function ForYou() {
               </div>
               <div className="text-2xl font-semibold mb-2"> Suggested books </div>
               <div className="text-base"> Browse these books </div>
-              <div className="flex w-260 mb-20 overflow-hidden"> 
+              <div className="flex w-240 mb-20 overflow-hidden"> 
               <div className="flex flex-row gap-4">
               { !suggestedData ? <></> :
                   suggestedData.map((book) => (
 
-                      <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 p-4 shrink-0 w-45 flex flex-col ml-4 mr-4 ">
+                      <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 p-4 shrink-0 w-50 flex flex-col ml-4 mr-4 ">
                         {book.subscriptionRequired ? <div className="mt-2 text-end pb-2"> <button className="rounded-2xl text-[10px] pb-1 pt-1 pl-2 pr-2 text-white bg-blue-950"> Premium </button> </div> : <div className="mt-11"> </div>}
                         <Image src={book.imageLink} alt={book.title} width={600} height={100} className=" h-40" />
                         <div className="font-bold"> {book.title} </div>

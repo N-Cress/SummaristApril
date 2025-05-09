@@ -16,14 +16,51 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { CiBookmark } from "react-icons/ci";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../lib/store';
-
-
+import { setLogging } from "@/lib/features/loggingSlice";
+import { useState, useEffect } from "react";
 
 export default function BookPage() {
     const params = useParams()
     const id = params.bookId
 
     const logging = useSelector((state: RootState) => state.persisted.logging.value)
+    const logged = useSelector((state: RootState) => state.persisted.logged.value)
+
+    const dispatch = useDispatch();
+
+    function getAudioDuration(url: string): Promise<number> {
+        return new Promise((resolve, reject) => {
+          const audio = new Audio();
+          audio.src = url;
+          audio.preload = "metadata";
+          audio.onloadedmetadata = () => resolve(audio.duration);
+          audio.onerror = () => reject("Unable to load audio");
+        });
+      }
+
+      const formatTime = (time: number) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60).toString().padStart(2, "0");
+        return `${minutes}:${seconds}`;
+      };
+
+      function AudioDurationDisplay({ audioLink }: { audioLink: string }) {
+        const [duration, setDuration] = useState<number | null>(null);
+      
+        useEffect(() => {
+          getAudioDuration(audioLink)
+            .then(setDuration)
+            .catch(() => setDuration(0));
+        }, [audioLink]);
+      
+        return (
+          <div className="flex items-center font-semibold"> 
+            <FaRegClock size={25}/>
+            <div className="pl-2">{duration !== null ? formatTime(duration) : "Loading..."}</div>
+          </div>
+        );
+      }
+
 
     const { data: bookData, isLoading, error } = useGetBookByIdQuery(id as string, {
         skip: typeof id !== 'string',
@@ -58,8 +95,7 @@ export default function BookPage() {
                         </div>
                         <div className="flex flex-col ">
                             <div className="pb-2 flex items-center font-semibold"> 
-                                    <FaRegClock size={25}/>
-                                    <div className="pl-2"> 3:23 </div>
+                                    <AudioDurationDisplay audioLink={bookData.audioLink} />
                             </div>
                             <div className="flex items-center font-semibold"> 
                                     <HiOutlineLightBulb size={25}/>
@@ -69,23 +105,37 @@ export default function BookPage() {
                     </div>
                     <hr className=" border-gray-200 mt-4 border-1"/>
                     <div className="mt-2 flex ">
-                        <Link href={`/player/${id}`}>
+                        {logged ?    <Link href={`/player/${id}`}>
                             <button className="flex items-center rounded-sm pl-10 pr-10 cursor-pointer pt-3 pb-3 text-white  bg-[#032B41] hover:bg-[#355567]"> 
                                 <GiOpenBook size={20} />
                                 <div className="pl-2"> Read </div>
                             </button>
-                        </Link>
-                        <Link href={`/player/${id}`}>
+                        </Link> :<button onClick={() => dispatch(setLogging(true))} className="flex items-center rounded-sm pl-10 pr-10 cursor-pointer pt-3 pb-3 text-white  bg-[#032B41] hover:bg-[#355567]"> 
+                                <GiOpenBook size={20} />
+                                <div className="pl-2"> Read </div>
+                            </button>
+                        }
+                        { logged ?  <Link href={`/player/${id}`}>
                         <button className="ml-4 flex items-center rounded-sm pl-10 cursor-pointer pr-10 pt-3 pb-3 text-white  bg-[#032B41] hover:bg-[#355567]"> 
                             <TiMicrophoneOutline size={20} />
                             <div className="pl-2"> Listen </div>
                         </button>
-                        </Link>
-                      
+                        </Link> :  
+                        <button onClick={() => dispatch(setLogging(true))} className="ml-4 flex items-center rounded-sm pl-10 cursor-pointer pr-10 pt-3 pb-3 text-white  bg-[#032B41] hover:bg-[#355567]"> 
+                            <TiMicrophoneOutline size={20} />
+                            <div className="pl-2"> Listen </div>
+                        </button>
+                        }
+                                    
                     </div>
                     <div className="flex mt-4 font-semibold items-center cursor-pointer group"> 
-                        <CiBookmark size={30} className="fill-[#2CA2E8] group-hover:fill-[#0442B3] "/>
-                        <div className="text-[#2CA2E8] text-xl group-hover:text-[#0442B3]"> Add title to My Library </div>
+                        {logged ? <>
+                            <CiBookmark size={30} className="fill-[#2CA2E8] group-hover:fill-[#0442B3] "/>
+                            <div className="text-[#2CA2E8] text-xl group-hover:text-[#0442B3]"> Add title to My Library </div>
+                        </> : <div className="flex" onClick={() => dispatch(setLogging(true))}>
+                            <CiBookmark size={30} className="fill-[#2CA2E8] group-hover:fill-[#0442B3] "/>
+                            <div className="text-[#2CA2E8] text-xl group-hover:text-[#0442B3]"> Add title to My Library </div>
+                        </div>}
                     </div>
                     <div className="font-semibold text-lg mt-4"> What&apos;s it about?</div>
                     <div className="flex mt-4 justfy-between">

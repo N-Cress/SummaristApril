@@ -31,7 +31,7 @@ const SidebarPlayer: React.FC<Props> = ({}) => {
 
  
   const dispatch = useDispatch();
-
+  console.log(active)
   const handleLogout = () => {
     dispatch((setLogged(false)));
     auth.signOut();
