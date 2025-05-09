@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { MdOutlineForward10 } from "react-icons/md";
 import { MdOutlineReplay10 } from "react-icons/md";
 import { FaCirclePlay } from "react-icons/fa6";
+import AudioPlayer from '@/app/components/AudioPlayer';
 
 
 export default function PlayerBook() {
@@ -44,17 +45,17 @@ export default function PlayerBook() {
         </div>
       </div>
       <div className="w-full h-20 fixed bottom-0 left-0 z-10 bg-[#042330] flex items-center justify-between">
-        <div className="text-white flex items-center h-full">
+        <div className="text-white flex items-center pl-8 h-full">
             <div>
-                <Image src={bookData.imageLink} alt={bookData.title} width={30} height={30} className="" />
+                <Image src={bookData.imageLink} alt={bookData.title} width={70} height={30} className="mr-8" />
             </div>
             <div>
-                <div> {bookData.title} </div>
-                <div> {bookData.author}</div>
+                <div className="text-sm "> {bookData.title} </div>
+                <div className="text-sm text-gray-400"> {bookData.author}</div>
             </div>
         </div>
-        <div>
-
+        <div className="flex w-full">
+          <AudioPlayer audio={bookData.audioLink}/>
         </div>
         <div>
 
