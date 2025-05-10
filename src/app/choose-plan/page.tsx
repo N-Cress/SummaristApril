@@ -7,7 +7,6 @@ import { IoIosDocument } from "react-icons/io";
 import { FaHandshake } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-
 export default function ChoosePlan() {
     const [selectedPlan, setSelectedPlan] = useState("yearly")
     const [qOne, setQOne] = useState(true)
@@ -15,13 +14,15 @@ export default function ChoosePlan() {
     const [qThree, setQThree] = useState(false)
     const [qFour, setQFour] = useState(false)
 
+
+
     return (
         <div className="flex flex-col relative items-center  min-h-screen h-[100%] overflow-y-auto ">
             <div className="-z-10 absolute top-0 border-2 bg-[#032B41] border-b-blue-[#032B41] rounded-b-[256px] w-full h-140"> </div>
             <div className="z-10 text-center mt-18 text-white font-bold text-5xl w-200"> Get unlimited access to many amazing books to read</div>
             <div className="z-10 pt-8 pb-8 mb-7 text-white text-xl text-center"> Turn ordinary moments into amazing learning opportunities </div>
             <Image src="/pricing-top.png" alt="Pricing image" width={325} height={400} className=" rounded-t-[50%] h-80"></Image>
-            <div className="flex mt-10">
+            <div className="flex mt-12 mb-12">
                 <div className="flex flex-col items-center text-center">
                     <IoIosDocument style={{color: '#032B41'}} className="w-14 h-14" />
                     <div className="w-48"> <span className="font-semibold text-[#032B41]"> Key Ideas in few min </span> with many books to read</div>
