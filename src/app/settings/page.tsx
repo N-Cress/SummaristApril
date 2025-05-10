@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../lib/store';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { app } from '../firebase';
+import Link from "next/link";
 
 const auth = getAuth(app);
 
@@ -97,7 +98,7 @@ export default function ForYou() {
               <div className="flex flex-col mt-6 pb-4 mb-4 border-b-[#E1E7EA] border-b-1 w-full">
                 <div className="font-bold text-xl"> Your Subscription plan</div>
                 <div className="pb-2 font-semibold pt-1"> {subLevel.slice(0, 1).toUpperCase() + subLevel.slice(1)} </div>
-                <div className="bg-[#2BD97C] text-center font-semibold pt-2 pb-2 mr-240  rounded-sm"> Upgrade to Premium </div>
+                <Link href="/choose-plan" className="bg-[#2BD97C] text-center font-semibold pt-2 pb-2 mr-240  rounded-sm"> Upgrade to Premium </Link>
               </div>
               <div>
                 <div className="font-bold text-xl"> Email </div>
