@@ -10,6 +10,11 @@ import Image from 'next/image';
 import { IoDocumentTextSharp } from "react-icons/io5";
 import { BsFillLightbulbFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
+import { IoIosStar } from "react-icons/io";
+import { IoIosStarHalf } from "react-icons/io";
+import { BiCrown } from "react-icons/bi";
+import { BiLeaf } from "react-icons/bi";
+
 
 
 
@@ -31,7 +36,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex h-full overflow-scroll flex-col">
+      <div className="flex h-full overflow-y-scroll flex-col">
         <div className="flex w-full justify-around mt-4">
           <Image src="/logo.png" className="pl-4 sidebar_image mb-10 " alt="Summarist Logo" height={140} width={240} />
           <div className="pl-4 pt-2 text-lg flex font-sem gap-5">
@@ -126,6 +131,141 @@ export default function Home() {
             <div className="text-[#6B757B] font-semibold text-3xl mb-4"> Improve your mood </div>
             <div className="text-[#6B757B] font-semibold text-3xl mb-4"> Maximize your abilities </div>
           </div>
+        </div>
+        <div className="w-full flex justify-center">
+         <div className="text-3xl font-bold"> What our members say</div>
+        </div>
+        <div className="w-full mt-4 flex flex-col items-center ">
+          <div className="w-175 font-light text-lg bg-[#FFF3D7] p-4">
+            <div className="flex items-center  ">
+              <div> Hanna M.</div>
+              <div className="pl-2 flex">
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+              </div>
+            </div>
+            <div>
+              This app has been a <span className="font-semibold"> game-changer </span> for me! It's saved me so much time and effort in reading and comprehending books. Highly recommend it to all book lovers.
+            </div>
+          </div>
+        </div>
+        <div className="w-full mt-4 flex flex-col items-center ">
+          <div className="w-175 font-light text-lg bg-[#FFF3D7] p-4">
+            <div className="flex items-center ">
+              <div> David B. </div>
+              <div className="pl-2 flex">
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+              </div>
+            </div>
+            <div>
+              I love this app! It provides <span className="font-semibold">  concise and accurate summaries </span>  of books in a way that is easy to understand. It's also very user-friendly and intuitive.
+            </div>
+          </div>
+        </div>
+        <div className="w-full mt-4 flex flex-col items-center ">
+          <div className="w-175 font-light text-lg bg-[#FFF3D7] p-4">
+            <div className="flex items-center ">
+              <div> Nathan S. </div>
+              <div className="pl-2 flex">
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+              </div>
+            </div>
+            <div>
+              This app is a great way to get the main takeaways from a book without having to read the entire thing. <span className="font-semibold"> The summaries are well-written and informative. </span> Definitely worth downloading.
+            </div>
+          </div>
+        </div>
+        <div className="w-full mt-4 flex flex-col items-center ">
+          <div className="w-175 font-light text-lg bg-[#FFF3D7] p-4">
+            <div className="flex items-center ">
+              <div> Ryan R</div>
+              <div className="pl-2 flex">
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+                <IoIosStar className="fill-[#0564F1]"/>
+              </div>
+            </div>
+            <div>
+              If you're a busy person who <span className="font-semibold"> loves reading but doesn't have the time </span>  to read every book in full, this app is for you! The summaries are thorough and provide a great overview of the book's content.
+            </div>
+          </div>
+        </div>
+         <button className="ml-170 mr-170 mt-4 bg-[#2BD97C] text-black cursor-pointer py-2 rounded ">
+          Login
+        </button>
+        <div className="w-full flex justify-center mt-16 text-3xl font-bold">
+          Start growing with Summarist now
+        </div>
+        <div className="flex w-full justify-center mt-8">
+          <div className="flex max-w-80 mr-10 flex-col bg-[#D7E9FF] p-14 rounded-xl items-center">
+            <BiCrown className="fill-[#0365F2]" size={60}/>
+            <div className="text-4xl mb-4 mt-4 font-bold"> 3 Million</div>
+            <div> Downloads on all platforms</div>
+          </div>
+          <div className="flex justify-center max-w-80 mr-10 flex-col bg-[#D7E9FF] p-14 rounded-xl items-center">
+            <div className="flex">
+              <IoIosStar className="fill-[#0365F2]" size={30}/>
+              <IoIosStar className="fill-[#0365F2]" size={30}/>
+              <IoIosStar className="fill-[#0365F2]" size={30}/>
+              <IoIosStar className="fill-[#0365F2]" size={30}/>
+              <IoIosStarHalf className="fill-[#0365F2]" size={30}/>
+            </div>
+            <div className="text-4xl mb-4 mt-4 font-bold"> 4.5 Stars </div>
+            <div> Average ratings on iOS and Google Play </div>
+          </div>
+          <div className="flex justify-center max-w-80 flex-col text-center bg-[#D7E9FF] p-14 rounded-xl items-center">
+            <BiLeaf className="fill-[#0365F2]" size={60}/>
+            <div className="text-4xl mb-4 mt-4 font-bold"> 97% </div>
+            <div> Of Summarist members create a better reading habit </div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center w-full justify-center">
+          <div className="flex mt-20 mb-10 w-3/4 justify-around ">
+                <div >
+                    <div className="text-lg mb-2 font-bold">Actions</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Summarist Magazine</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Cancel Subscription</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Help</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Contact us</div>
+                </div>
+                <div >
+                    <div className="text-lg mb-2 font-bold">Useful Links</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Pricing</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Summarist Business</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Gift Cards</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Authors & Publishers</div>
+                </div>
+                <div >
+                    <div className="text-lg mb-2 font-bold">Company</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">About</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Careers</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Partners</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Code of Conduct</div>
+                </div>
+                <div >
+                    <div className="text-lg mb-2 font-bold">Other</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Sitemap</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Legal Notice</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Terms of Service</div>
+                    <div className="text-gray-700 mb-1 text-sm cursor-not-allowed">Privacy Policies</div>
+                </div>
+            </div>
+            <div className="font-semibold mb-10">
+                 Copyright © 2023 Summarist.
+            </div>
         </div>
       </div>
       {logging && ( 
