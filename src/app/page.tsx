@@ -203,7 +203,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-         <button className="ml-170 mr-170 mt-4 bg-[#2BD97C] text-black cursor-pointer py-2 rounded ">
+         <button onClick={() => dispatch(setLogging(true))}className="ml-170 mr-170 mt-8 bg-[#2BD97C] text-black cursor-pointer py-2 rounded ">
           Login
         </button>
         <div className="w-full flex justify-center mt-16 text-3xl font-bold">
