@@ -24,10 +24,14 @@ const Login = ({ }) => {
 
     const dispatch = useDispatch();
     
+    
 
     const user = auth.currentUser;
 
       async function userPremium() {
+        if (!user) {
+        return null;
+        } 
       const userRef = doc(db, "users", user.uid);
 
       await updateDoc(userRef, {
@@ -43,7 +47,6 @@ const Login = ({ }) => {
           dispatch(setLogging(false))
           dispatch(setUEmail(user.email))
           dispatch(setUName(user.displayName || null))
-          dispatch(setSub(user.subscription))
           setError(false);
         } catch (error) {
           console.error('Login failed:', error);
@@ -58,14 +61,14 @@ const Login = ({ }) => {
         try {
           const result = await signInWithPopup(auth, provider);
           const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
+          // const token = credential.accessToken;
           const user = result.user;
      
         } catch (error) {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          const email = error.customData.email;
-          const credential = GoogleAuthProvider.credentialFromError(error);
+          // const errorCode = error.code;
+          // const errorMessage = error.message;
+          // const email = error.customData.email;
+          // const credential = GoogleAuthProvider.credentialFromError(error);
      
         }
       }
