@@ -58,14 +58,14 @@ export default function ForYou() {
     try {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      // const token = credential.accessToken;
       const user = result.user;
  
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      // const email = error.customData.email;
+      // const credential = GoogleAuthProvider.credentialFromError(error);
  
     }
   }
@@ -119,8 +119,7 @@ export default function ForYou() {
       </div>
     </div>
     {logging && ( 
-      <Login setLogged={setLogged} setIsLogging={setIsLogging} 
-      setSubLevel={setSubLevel}/>
+      <Login />
   )};
   </>
   )

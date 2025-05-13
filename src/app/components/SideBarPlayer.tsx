@@ -14,17 +14,21 @@ import { RootState } from '../../lib/store';
 import { setActive } from '../../lib/features/activeSlice';
 import { setLogged } from "@/lib/features/loggedSlice";
 import { setLogging } from "@/lib/features/loggingSlice";
+import { PiTextAaBold } from "react-icons/pi";
+
 
 import { getAuth } from 'firebase/auth';
 import Link from "next/link";
+import React from "react";
 
 const auth = getAuth(app);
 
 type Props = {
-  setTextSize: (textSize: string) => void
+  setTextSize: React.Dispatch<React.SetStateAction<string>>;
+  textSize: string;
 }
 
-const SidebarPlayer: React.FC<Props> = ({}) => {
+const SidebarPlayer: React.FC<Props> = ({ setTextSize, textSize }) => {
 
   const active = useSelector((state: RootState) => state.persisted.active.value)
   const logged = useSelector((state: RootState) => state.persisted.logged.value)
@@ -60,6 +64,12 @@ const SidebarPlayer: React.FC<Props> = ({}) => {
                   <div className={`cursor-not-allowed flex p-4 border-l-green-400 pl-3 items-center ${ active === "search" ? "border-l-4" : "pl-2"}`}>
                     <IoIosSearch className="icons" />
                     <div className="pl-2"> Search </div>
+                  </div>
+                   <div className={`flex pl-4 items-center`}>
+                    <PiTextAaBold onClick={() => setTextSize("small") }className={`cursor-pointer border-b-green-400 pr-1 ${textSize === "small" ? "border-b-4" : ""}`} size={30}/>
+                    <PiTextAaBold onClick={() => setTextSize("base") }className={`cursor-pointer border-b-green-400 pr-1 ${textSize === "base" ? "border-b-4" : ""}`} size={35}/>
+                    <PiTextAaBold onClick={() => setTextSize("medium") }className={`cursor-pointer border-b-green-400 pr-1 ${textSize === "medium" ? "border-b-4" : ""}`} size={40}/>
+                    <PiTextAaBold onClick={() => setTextSize("large") }className={`cursor-pointer border-b-green-400 pr-1 ${textSize === "large" ? "border-b-4" : ""}`} size={45}/>
                   </div>
                 </div>
                 <div className="flex flex-col items-start">

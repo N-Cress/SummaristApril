@@ -40,17 +40,17 @@ export default function Home() {
         <div className="flex w-full justify-around mt-4">
           <Image src="/logo.png" className="pl-4 sidebar_image mb-10 " alt="Summarist Logo" height={140} width={240} />
           <div className="pl-4 pt-2 text-lg flex font-sem gap-5">
-            <div> Login </div>
-            <div> About </div>
-            <div> Contact </div>
-            <div> Help </div>
+            <div onClick={() => dispatch(setLogging(true))} className="hover:text-[#2BD97C] cursor-pointer"> Login </div>
+            <div className="cursor-not-allowed"> About </div>
+            <div className="cursor-not-allowed"> Contact </div>
+            <div className="cursor-not-allowed"> Help </div>
           </div>
         </div>
         <div className="w-full flex pl-60 pr-60 justify-around">
           <div className="pt-10"> 
             <div className="text-4xl font-bold w-100 mb-4 "> Gain more Knowledge in less time</div>
             <div className="text-lg font-light w-80"> Great summaries for busy people, individuals who barely have time to read, and even people who don't like to read.</div>
-            <button onClick={() => dispatch(setLogging(true))} className="bg-[#2DE07F] mt-4 rounded-lg pr-30 pl-30 pt-2 pb-2 cursor-pointer hover:bg-[#20BA68]"> Login </button>
+            <button onClick={() => dispatch(setLogging(true))} className="bg-[#2DE07F] mt-4 rounded-md pr-30 pl-30 pt-2 pb-2 cursor-pointer hover:bg-[#20BA68]"> Login </button>
           </div>
           <Image src="/landing.png" alt="Women looking at browser" className="" height={140} width={440}/>
         </div>

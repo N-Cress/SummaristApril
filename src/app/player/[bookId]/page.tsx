@@ -1,6 +1,6 @@
 'use client';
 
-import  SidebarPlayer  from '../../components/sidebarLeft';
+import  SidebarPlayer  from '../../components/SideBarPlayer';
 import SidebarSearch from '../../components/sidebarSearch';
 import Login from '../../components/login';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,6 +20,13 @@ export default function PlayerBook() {
     const [textSize, setTextSize] = useState("base")
     const logging = useSelector((state: RootState) => state.persisted.logging.value)
 
+    const fontSizeMap: Record<string, string> = {
+      small: "12px",
+      base: "14px",
+      medium: "16px",
+      large: "20px",
+    }
+
     const params = useParams()
     const id = params.bookId
 
@@ -33,7 +40,7 @@ export default function PlayerBook() {
         < >
     <div className={`flex w-screen h-screen text-[#032B41] flew-grow pb-20`}>
       
-      <SidebarPlayer setTextSize={setTextSize}/>
+      <SidebarPlayer setTextSize={setTextSize} textSize={textSize}/>
       <div className="w-full h-full  overflow-y-auto">
         <SidebarSearch />
         <div className="flex flex-col w-1/2 ml-80">
@@ -41,7 +48,7 @@ export default function PlayerBook() {
                 {bookData.title}
             </div>
             <hr  className="h-full mt-4 border-gray-200 border-1"/>
-            <pre className="mt-4 mb-4 text-wrap text-base font-sans"> {bookData.summary}</pre>
+            <pre style={{ fontSize: fontSizeMap[textSize] || "16px" }} className={`mt-4 mb-4 text-wrap text-base font-sans`}> {bookData.summary}</pre>
         </div>
       </div>
       <div className="w-full h-20 fixed bottom-0 left-0 z-10 bg-[#042330] flex items-center justify-between">
