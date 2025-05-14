@@ -34,8 +34,11 @@ export const booksApi = createApi({
         }),
         getBookById: builder.query<Book, string>({
             query: (id) => `/getBook?id=${id}`,
+        }),
+        getBookBySearch: builder.query<Book[], string>({
+            query: (search) => `getBooksByAuthorOrTitle?search=${search}`
         })
     })
 })
 
-export const { useGetSuggestedBooksQuery, useGetSelectedBooksQuery, useGetRecommendedBooksQuery, useGetBookByIdQuery } = booksApi
+export const { useGetSuggestedBooksQuery, useGetSelectedBooksQuery, useGetRecommendedBooksQuery, useGetBookByIdQuery, useGetBookBySearchQuery } = booksApi
