@@ -14,10 +14,19 @@ import { FaRegStar } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { CiBookmark } from "react-icons/ci";
+import { FaBookmark } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../lib/store';
 import { setLogging } from "@/lib/features/loggingSlice";
 import { useState, useEffect } from "react";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { onSnapshot, collection, getDocs } from "firebase/firestore";
+
+
+
+const db = getFirestore();
+const auth = getAuth();
 
 export default function BookPage() {
     const params = useParams()
@@ -27,6 +36,35 @@ export default function BookPage() {
     const logged = useSelector((state: RootState) => state.persisted.logged.value)
 
     const dispatch = useDispatch();
+
+    const fetchFavorites = async () => {
+  const user = auth.currentUser;
+  if (!user) return [];
+
+  const favsRef = collection(db, `users/${user.uid}/favorites`);
+  const snapshot = await getDocs(favsRef);
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+};
+
+const [favorites, setFavorites] = useState<string[]>([]);
+
+   useEffect(() => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const favsRef = collection(db, `users/${user.uid}/favorites`);
+
+  const unsubscribe = onSnapshot(favsRef, (snapshot) => {
+    const favIds = snapshot.docs.map((doc) => doc.id);
+    setFavorites(favIds);
+  });
+
+  return () => unsubscribe();
+}, []);
 
     function getAudioDuration(url: string): Promise<number> {
         return new Promise((resolve, reject) => {
@@ -65,6 +103,22 @@ export default function BookPage() {
     const { data: bookData, isLoading, error } = useGetBookByIdQuery(id as string, {
         skip: typeof id !== 'string',
       });
+
+       
+const toggleFavorite = async (book) => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const favRef = doc(db, `users/${user.uid}/favorites/${book.id}`);
+  const snapshot = await getDoc(favRef);
+
+  if (snapshot.exists()) {
+    await deleteDoc(favRef);
+  } else {
+    await setDoc(favRef, book);
+  }
+};
+
 
       if (!bookData) return <div> Loading...</div>
 
@@ -130,8 +184,9 @@ export default function BookPage() {
                     </div>
                     <div className="flex mt-4 font-semibold items-center cursor-pointer group"> 
                         {logged ? <>
-                            <CiBookmark size={30} className="fill-[#2CA2E8] group-hover:fill-[#0442B3] "/>
-                            <div className="text-[#2CA2E8] text-xl group-hover:text-[#0442B3]"> Add title to My Library </div>
+                           {favorites.includes(bookData.id) ? <FaBookmark onClick={() => toggleFavorite(bookData)} size={30} className={`fill-[#2CA2E8] group-hover:fill-[#0442B3] `}/>
+                            :  <CiBookmark onClick={() => toggleFavorite(bookData)} size={30} className={`fill-[#2CA2E8] group-hover:fill-[#0442B3] `}/>}
+                            <div onClick={() => toggleFavorite(bookData)} className="text-[#2CA2E8] text-xl group-hover:text-[#0442B3]"> Add title to My Library </div>
                         </> : <div className="flex" onClick={() => dispatch(setLogging(true))}>
                             <CiBookmark size={30} className="fill-[#2CA2E8] group-hover:fill-[#0442B3] "/>
                             <div className="text-[#2CA2E8] text-xl group-hover:text-[#0442B3]"> Add title to My Library </div>
