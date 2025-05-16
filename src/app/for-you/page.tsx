@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../lib/store';
 import { setLogged, setUEmail, setUName } from '@/lib/features/loggedSlice';
 import { setLogging } from "@/lib/features/loggingSlice";
+import { setActive } from "@/lib/features/activeSlice";
 
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { app } from '../firebase';
@@ -22,13 +23,11 @@ const auth = getAuth(app);
 
 
 export default function ForYou() {
-  const [active, setActive] = useState<string>("for")
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const logged = useSelector((state: RootState) => state.persisted.logged.value)
   const logging = useSelector((state: RootState) => state.persisted.logging.value)
+
+  const dispatch = useDispatch();
 
   const {data: selectedData, isLoading: selectedLoading} = useGetSelectedBooksQuery()
   const {data: recommendedData, isLoading: recommendedLoading} = useGetRecommendedBooksQuery()
@@ -68,14 +67,14 @@ export default function ForYou() {
 
 
   useEffect(() => {
+     dispatch(setActive("foryou"))
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLogged(true);
+        dispatch(setLogged(true));
       } else {
-        setLogged(false);
+          dispatch(setLogged(false));
       }
     });
-
     return () => unsubscribe();
   }, []);
 

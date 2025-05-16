@@ -37,19 +37,7 @@ export default function BookPage() {
 
     const dispatch = useDispatch();
 
-    const fetchFavorites = async () => {
-  const user = auth.currentUser;
-  if (!user) return [];
-
-  const favsRef = collection(db, `users/${user.uid}/favorites`);
-  const snapshot = await getDocs(favsRef);
-
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  }));
-};
-
+ 
 const [favorites, setFavorites] = useState<string[]>([]);
 
    useEffect(() => {
