@@ -67,7 +67,7 @@ export default function ForYou() {
 
 
   useEffect(() => {
-     dispatch(setActive("foryou"))
+     dispatch(setActive("for"))
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(setLogged(true));
@@ -115,7 +115,10 @@ export default function ForYou() {
               <div className="text-base"> We think you&apos;ll like these </div>
               <div className="flex w-240 overflow-hidden"> 
                 <div className="flex flex-row gap-4">
-                  {!recommendedData ? <></> :
+                  {!recommendedData ? Array.from({ length: 5 }).map((_, i) => (
+                   <div key={i} className="hover:bg-gray-200 bg-gray-200 h-20 w-20 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
+                      </div>
+                  )):
                   recommendedData.map((book) => (
 
                       <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
