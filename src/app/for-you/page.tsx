@@ -116,7 +116,7 @@ export default function ForYou() {
               <div className="flex w-240 overflow-hidden"> 
                 <div className="flex flex-row gap-4">
                   {!recommendedData ? Array.from({ length: 5 }).map((_, i) => (
-                   <div key={i} className="hover:bg-gray-200 bg-gray-200 h-20 w-20 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
+                   <div key={i} className="hover:bg-gray-200 bg-gray-200 h-50 w-20 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
                       </div>
                   )):
                   recommendedData.map((book) => (

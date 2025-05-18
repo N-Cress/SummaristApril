@@ -21,17 +21,8 @@ const auth = getAuth(app);
 const db = getFirestore();
 
 export default function ForYou() {
-type Favorite = {
-  id: string;
-  title: string;
-  author: string;
-  subscriptionRequired: boolean;
-  imageLink: string;
-  audioLink: string;
-};
 
   const [favorites, setFavorites] = useState<any[]>([]);
-  const [finishedBooks, setFinishedBooks] = useState([]);
 
   const dispatch = useDispatch();
 
