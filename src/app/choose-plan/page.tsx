@@ -6,15 +6,25 @@ import { RiPlantFill } from "react-icons/ri";
 import { IoIosDocument } from "react-icons/io";
 import { FaHandshake } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { getCheckoutUrl } from "../components/stripePayment";
+import { app } from '../firebase';
+import { useRouter } from 'next/navigation';
 
 export default function ChoosePlan() {
+    
     const [selectedPlan, setSelectedPlan] = useState("yearly")
     const [qOne, setQOne] = useState(true)
     const [qTwo, setQTwo] = useState(false)
     const [qThree, setQThree] = useState(false)
     const [qFour, setQFour] = useState(false)
 
+    const router = useRouter();
 
+    const upgradeMonthly = async () => {
+        const priceId = "price_1RN4VHPurNOQsov4LFhGISKZ";
+        const checkoutUrl = await getCheckoutUrl(app, priceId);
+        router.push(checkoutUrl)
+    }   
 
     return (
         <div className="flex flex-col relative items-center  min-h-screen h-[100%] overflow-y-auto ">
@@ -69,7 +79,7 @@ export default function ChoosePlan() {
                     </div>
                 </div>
                 <div className="sticky bg-white w-full bottom-8 text-center pt-8">
-                    <div className="bg-[#2BE080] rounded-sm p-2 mr-50 ml-50"> {selectedPlan === "yearly" ? "Start your free 7-day trial" : "Start your first month"} </div>
+                    <div onClick={upgradeMonthly} className="cursor-pointer bg-[#2BE080] rounded-sm p-2 mr-50 ml-50"> {selectedPlan === "yearly" ? "Start your free 7-day trial" : "Start your first month"} </div>
                 </div>
                 <div className="sticky bottom-0 pb-4  bg-white w-full text-center text-xs mt-2 text-[#6B758B]"> {selectedPlan === "yearly" ? "Cancel your trial at any time before it ends, and you won't be charged." : "30-day money back guarantee, no questions asked."} </div>
             </div>
