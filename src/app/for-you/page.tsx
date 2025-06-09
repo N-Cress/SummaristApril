@@ -93,9 +93,9 @@ export default function ForYou() {
         <div className="flex-grow -auto ml-60 pt-10 pr-6"> 
             <div className="flex flex-col">
               <div className="text-2xl font-semibold mb-2"> Selected just for you </div>
-              <div className="">
+              <div className="mt-4 mb-4">
                 {!selectedData ? <></> : 
-                <Link href={`/books/${selectedData[0].id}`} className="flex p-4 rounded-sm  bg-[#FBEFD6] w-150 h-full">
+                <Link href={`/books/${selectedData[0].id}`} className="flex p-8 rounded-sm pr-16 pl-16  bg-[#FBEFD6] w-150 h-full">
                   <div className="w-50"> {selectedData[0].subTitle }</div>
                   <hr  className="h-40 ml-8 mr-4 border-gray-300 border-1"/>
                   <div className="flex">
