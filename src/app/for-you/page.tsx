@@ -94,7 +94,8 @@ export default function ForYou() {
             <div className="flex flex-col">
               <div className="text-2xl font-semibold mb-2"> Selected just for you </div>
               <div className="">
-                {!selectedData ? <></> : 
+                {!selectedData ? <div className="hover:bg-gray-200 bg-gray-200 h-50 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
+                      </div> : 
                 <Link href={`/books/${selectedData[0].id}`} className="flex p-4 rounded-sm  bg-[#FBEFD6] w-150 h-full">
                   <div className="w-50"> {selectedData[0].subTitle }</div>
                   <hr  className="h-40 ml-8 mr-4 border-gray-300 border-1"/>
@@ -138,7 +139,10 @@ export default function ForYou() {
               <div className="text-base"> Browse these books </div>
               <div className="flex w-240 mb-20 overflow-hidden"> 
               <div className="flex flex-row gap-4">
-              { !suggestedData ? <></> :
+              { !suggestedData ? Array.from({ length: 5 }).map((_, i) => (
+                   <div key={i} className="hover:bg-gray-200 bg-gray-200 h-50 w-20 shrink-0 p-4 w-50 flex flex-col ml-4 mr-4 ">
+                      </div>
+                  )) :
                   suggestedData.map((book) => (
 
                       <Link href={`/books/${book.id}`} key={book.id} className="hover:bg-gray-200 p-4 shrink-0 w-50 flex flex-col ml-4 mr-4 ">

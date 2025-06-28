@@ -38,8 +38,8 @@ const SidebarLeft: React.FC<Props> = ({}) => {
   }
 
     return(
-        <div className="w-54 flex flex-col justify-between h-full pb-4 pr-4 pt-4 sidebar">
-                <div className="flex flex-col ">
+        <div className=" lg:w-54 flex flex-col justify-between h-full pb-4 pr-4 pt-4 sidebar">
+                <div className="hidden lg:flex flex-col ">
                   <Link href="/for-you"> 
                     <Image src="/logo.png" className="pl-4 sidebar_image mb-10" alt="Summarist Logo" height={220} width={220}/>
                   </Link>
