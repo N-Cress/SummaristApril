@@ -52,8 +52,8 @@ export default function PlayerBook() {
         </div>
       </div>
       <div className="w-full h-20 fixed bottom-0 left-0 z-10 bg-[#042330] flex items-center justify-between">
-        <div className="text-white flex items-center pl-8 h-full">
-            <div>
+        <div className="text-white flex items-center w-75 pl-8 h-full">
+            <div >
                 <Image src={bookData.imageLink} alt={bookData.title} width={70} height={30} className="mr-8" />
             </div>
             <div>
